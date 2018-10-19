@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 
-@Entity('stores')
+@Entity({name: 'stores'})
 export class Store {
 
     @PrimaryGeneratedColumn({name: 'store_id'})
@@ -26,6 +26,6 @@ export class Store {
 
     @Column()
     public time_in_store: number;
-    
+
 
 }

@@ -7,12 +7,12 @@ export type Query<T> = {
 
 export interface Repository<T> {
     findAll(): Promise<T[]>;
-    findById(id: string): Promise<T>;
-    findManyById(ids: string[]): Promise<T[]>;
+    findById(id: number): Promise<T>;
+    findManyById(ids: number[]): Promise<T[]>;
     findByQuery(query?: Query<T>): Promise<T[]>;
-    update(id: string, item: T): Promise<boolean>;
+    update(id: number, item: T): Promise<boolean>;
     save(data: T): Promise<boolean>;
-    delete(id: string): Promise<boolean>;
+    delete(id: number): Promise<boolean>;
 }
 
 @injectable()
@@ -28,11 +28,11 @@ export abstract class GenericRepositoryImp<TEntity> implements Repository<TEntit
         return await this.repository.find();
     }
 
-    public async findById(id: string): Promise<TEntity> {
+    public async findById(id: number): Promise<TEntity> {
         return await this.repository.findOne(id);
     }
 
-    public async findManyById(ids: string[]): Promise<TEntity[]> {
+    public async findManyById(ids: number[]): Promise<TEntity[]> {
         return await this.repository.findByIds(ids);
     }
 
@@ -40,12 +40,12 @@ export abstract class GenericRepositoryImp<TEntity> implements Repository<TEntit
         return await this.repository.find(query);
     }
 
-    public async update(id: string, data: any): Promise<boolean> {
+    public async update(id: number, data: any): Promise<boolean> {
         const result = await this.repository.update(id, data);
         return !!result;
     }
 
-    public async delete(id: string): Promise<boolean> {
+    public async delete(id: number): Promise<boolean> {
         const result = await this.repository.delete(id);
         return !!result;
     }
