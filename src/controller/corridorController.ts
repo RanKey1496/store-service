@@ -6,7 +6,6 @@ import Types from '../config/types';
 import { CorridorService } from '../service/corridorService';
 import { PreferenceService } from '../service/preferenceService';
 import { authenticate } from '../service/authService';
-import { ProductService } from '../service/productService';
 import { StoreService } from '../service/storeService';
 
 @injectable()
@@ -20,9 +19,6 @@ export class CorridorController implements RegistrableController {
 
     @inject(Types.PreferenceService)
     private preferenceService: PreferenceService;
-
-    @inject(Types.ProductService)
-    private productService: ProductService;
 
     public register(app: Application): void {
         app.route('/store/corridor/:id')
@@ -44,11 +40,7 @@ export class CorridorController implements RegistrableController {
                     const store = await this.storeService.getStoreById(req.params.id);
                     if (store !== undefined && store !== null) {
                         const userLikes = await this.preferenceService.findQualified(req.body.token);
-                        console.log('Likes: ', userLikes);
-                        const corridorsId = await this.productService.getCorridorsIds(req.body.token,
-                            userLikes.map(likes => likes.id));
-                        console.log('Corridos: ', corridorsId);
-                        const result = await this.corridorService.getRecommendedCorridors(userLikes, corridorsId);
+                        const result = await this.corridorService.getRecommendedCorridors(userLikes);
                         return dataResponse(res, result);
                     } else {
                         return badRequestResponse(res, 'Unable to find a stora with that id');

@@ -6,7 +6,7 @@ import { Corridor } from '../entity/corridor';
 export interface CorridorService {
     getCorridorById(id: number): Promise<Corridor>;
     getStoreCorridors(id: number): Promise<Corridor[]>;
-    getRecommendedCorridors(userLikes: Array<any>, corridorIds: Array<any>): Promise<Corridor[]>;
+    getRecommendedCorridors(userLikes: Array<any>): Promise<Corridor[]>;
 }
 
 @injectable()
@@ -23,39 +23,21 @@ export class CorridorServiceImp implements CorridorService {
         return undefined;
     }
 
-    public async getRecommendedCorridors(userLikes: Array<any>, corridorIds: Array<any>): Promise<Corridor[]> {
-        const likes: any = [];
-        const dislikes: any = [];
-        userLikes.map(vote => {
-            if (vote.like === 'true') {
-                let count = 0;
-                let corridor: number;
-                corridorIds = corridorIds.filter((c) => {
-                    if (c.productId === Number(vote.id)) {
-                        console.log('Corridor: ', c.corridorId, ' count: ', count);
-                        count++;
-                        corridor = c.corridorId;
-                        return false;
-                    } else {
-                        return true;
-                    }
-                });
-                if (corridor !== undefined) {
-                    likes.push({ id: corridor, count });
-                }
-            } else {
-                corridorIds.filter(r => {
-                    if (Number(vote.id) === r.productId) {
-                        dislikes.push(r.corridorId);
-                    }
-                });
-            }
-        });
-        console.log('Likes: ', likes);
-        console.log('Dislike: ', dislikes);
-        const limit = 15 - likes.length - dislikes.length;
-        return await this.corridorRepository.findRandomWithoutIds(likes.map(l => l.id), dislikes, limit);
-        // return Promise.resolve(true);
+    public async getRecommendedCorridors(userLikes: Array<any>): Promise<Corridor[]> {
+        const limit = 15 - userLikes.length;
+        const queryRand = userLikes.length > 0 ? `id NOT IN (${userLikes.map(u => u._id)})` : '1=1';
+        if (userLikes.length > 0) {
+            const queryRecommend = `id IN (${userLikes.map(u => u._id)})`;
+            let orderByRecommend = `${userLikes.map(u => {
+                return ` id = ${u._id} DESC `;
+            })}`;
+            orderByRecommend = orderByRecommend.slice(0, -6);
+            const result = await Promise.all([await this.corridorRepository.findByRecommended(queryRecommend, orderByRecommend),
+                        await this.corridorRepository.findRandomWithoutIds(queryRand, limit)]);
+            return [...result[0], ...result[1]];
+        } else {
+            return await this.corridorRepository.findRandomWithoutIds(queryRand, limit);
+        }
     }
 
     private findOccurrencies(id: number, corridors: Array<any>) {

@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import Types from '../config/types';
-import { SubCorridor } from '../entity/subcorridor';
+import { SubCorridor } from '../entity/subCorridor';
 import { SubCorridorRepository } from '../repository/subCorridorRepository';
 
 export interface SubCorridorService {
