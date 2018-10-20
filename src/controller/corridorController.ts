@@ -40,7 +40,6 @@ export class CorridorController implements RegistrableController {
                     const store = await this.storeService.getStoreById(req.params.id);
                     if (store !== undefined && store !== null) {
                         const userLikes = await this.preferenceService.findQualified(req.body.token);
-                        console.log('Likes: ', userLikes);
                         const result = await this.corridorService.getRecommendedCorridors(userLikes);
                         return dataResponse(res, result);
                     } else {
