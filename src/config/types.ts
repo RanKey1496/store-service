@@ -6,7 +6,6 @@ const Types = {
     StoreService: Symbol('StoreService'),
     SubCorridorService: Symbol('SubCorridorService'),
     PreferenceService: Symbol('PreferenceService'),
-    ProductService: Symbol('ProductService'),
 
     CorridorRepository: Symbol('CorridorRepository'),
     StoreRepository: Symbol('StoreRepository'),

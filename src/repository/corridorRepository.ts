@@ -12,14 +12,18 @@ export class CorridorRepository extends GenericRepositoryImp<Corridor> {
         this.corridorRepository = corridorRepository;
     }
 
-    public async findRandomWithoutIds(likes: Array<number>, disLike: Array<number>, limit: number) {
+    public async findRandomWithoutIds(query: string, limit: number): Promise<Array<any>> {
         const qb = await this.corridorRepository.createQueryBuilder('Corridor');
         return await qb
-                    .where('id NOT IN (:...likes)', { likes }, )
-                    .andWhere('id NOT IN (:...disLike)', { disLike ? disLike : '1=1' })
+                    .where(query)
                     .orderBy('RANDOM()')
                     .limit(limit)
                     .getMany();
+    }
+
+    public async findByRecommended(query: string, order: string): Promise<Array<any>> {
+        const qb = await this.corridorRepository.createQueryBuilder('Corridor');
+        return await qb.where(query).orderBy(order, 'DESC').getMany();
     }
 
 }
