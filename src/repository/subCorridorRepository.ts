@@ -1,12 +1,12 @@
 import { GenericRepositoryImp } from './repository';
-import { Subcorridor } from '../entity/subcorridor';
-import { getRepository } from 'typeorm';
+import { SubCorridor } from '../entity/subCorridor';
+import { getRepository, Repository } from 'typeorm';
 import { injectable } from 'inversify';
 
 @injectable()
-export class SubCorridorRepository extends GenericRepositoryImp<Subcorridor> {
+export class SubCorridorRepository extends GenericRepositoryImp<SubCorridor> {
 
-    private subCorridorRepository: SubCorridorRepository;
+    private subCorridorRepository: Repository<SubCorridor>;
 
     constructor() {
         const repository = getRepository(SubCorridor);

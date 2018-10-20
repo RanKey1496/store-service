@@ -42,9 +42,16 @@ export const LOGGING_LEVEL_CONSOLE = process.env.LOGGING_LEVEL_CONSOLE;
 export const LOGGING_LEVEL_FILE = process.env.LOGGING_LEVEL_FILE;
 
 /**
- * Loggin
+ * Authentication service
  */
-export const SECRET = process.env.SECRET;
-export const SECRET_REFRESH = process.env.SECRET_REFRESH;
-export const CLIENT_ID_FACEBOOK = process.env.CLIENT_ID_FACEBOOK;
-export const CLIENT_SECRET_FACEBOOK = process.env.CLIENT_SECRET_FACEBOOK;
+export const AUTH_URL = process.env.AUTH_URL;
+
+/**
+ * Preference service
+ */
+export const PREFERENCE_URL = process.env.PREFERENCE_URL;
+
+/**
+ * Product service
+ */
+export const PRODUCT_URL = process.env.PRODUCT_URL;

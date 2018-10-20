@@ -1,25 +1,25 @@
 import { inject, injectable } from 'inversify';
 import Types from '../config/types';
-import { Subcorridor } from '../entity/subcorridor';
+import { SubCorridor } from '../entity/subcorridor';
 import { SubCorridorRepository } from '../repository/subCorridorRepository';
 
 export interface SubCorridorService {
-    getSubCorridorById(id: number): Promise<Subcorridor>;
-    getSubCorridorsByCorridorId(id: number): Promise<Subcorridor[]>;
+    getSubCorridorById(id: number): Promise<SubCorridor>;
+    getSubCorridorsByCorridorId(id: number): Promise<SubCorridor[]>;
 }
 
 @injectable()
 export class SubCorridorServiceImp implements SubCorridorService {
 
-    @inject(Types.CorridorRepository)
+    @inject(Types.SubCorridorRepository)
     private subCorridorRepository: SubCorridorRepository;
 
-    public async getSubCorridorById(id: number): Promise<Subcorridor> {
+    public async getSubCorridorById(id: number): Promise<SubCorridor> {
         return await this.subCorridorRepository.findById(id);
     }
 
-    public async getSubCorridorsByCorridorId(id: number): Promise<Subcorridor[]> {
-        return undefined;
+    public async getSubCorridorsByCorridorId(id: number): Promise<SubCorridor[]> {
+        return await this.subCorridorRepository.findByQuery({ corridor_id: id });
     }
 
 }

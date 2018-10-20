@@ -1,7 +1,7 @@
-import { Entity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({name: 'sub_corridors'})
-export class Subcorridor {
+export class SubCorridor {
 
     @PrimaryColumn()
     private id: number;
