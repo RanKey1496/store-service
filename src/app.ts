@@ -13,7 +13,7 @@ import { createConnection } from 'typeorm';
 import { dbOptions } from './config/db';
 import { logger } from './utils/logger';
 import { NotFound, BadRequest, Unauthorize, Conflict } from './utils/exceptions';
-import { notFoundResponse, badRequestResponse, unauthorizeResponse, conflictResponse, internalResponse } from './utils/response';
+import { notFoundResponse, badRequestResponse, unauthorizeResponse, conflictResponse, internalResponse } from './utils/responses';
 import { ENVIRONMENT } from './utils/secrets';
 
 export default class App {
@@ -37,7 +37,7 @@ export default class App {
         controllers.forEach(controller => controller.register(app));
 
         app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-            logger.error(err.stack);
+            console.error(err.stack);
             if (err instanceof NotFound) {
                 return notFoundResponse(res, err.message);
             }
