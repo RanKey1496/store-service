@@ -26,5 +26,5 @@ export class Store {
 
     @Column()
     public time_in_store: number;
- 
+
 }
