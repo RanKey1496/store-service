@@ -1,7 +1,7 @@
 import { RegistrableController } from './RegistrableController';
 import { Application, Request, NextFunction, Response } from 'express';
 import { injectable, inject } from 'inversify';
-import { dataResponse } from '../utils/response';
+import { dataResponse } from '../utils/responses';
 import Types from '../config/types';
 import { CorridorService } from '../service/corridorService';
 
